@@ -84,18 +84,6 @@ class BaseModel:
 
     def solve(self, t: np.ndarray, solver: str = "Euler", verbose: bool = True,
               **stimuli) -> tp.Dict[str, np.ndarray]:
-        """
-        Solve the ODE system over time array t
-
-        Args:
-            t: time array
-            solver: integration method ("Euler" only for now)
-            verbose: whether to print progress
-            **stimuli: additional stimuli passed to ode()
-
-        Returns:
-            Dictionary with state variable names as keys and time series as values
-        """
         if solver != "Euler":
             raise ValueError("Only 'Euler' solver is implemented in this standalone version")
 
