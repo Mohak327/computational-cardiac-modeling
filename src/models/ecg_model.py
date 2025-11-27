@@ -24,18 +24,18 @@ class ECG_Model(BaseModel):
         self.alpha = None
         self.params = {}
         self.states = OrderedDict([
-            ("x1", 0.0),
-            ("x2", 0.0),
-            ("x3", 0.1),
-            ("x4", 0.0),
+            ("x1", np.float64(0.0)),
+            ("x2", np.float64(0.0)),
+            ("x3", np.float64(0.1)),
+            ("x4", np.float64(0.0)),
         ])
         self.bounds = OrderedDict([
-            ("x1", (-np.inf, np.inf)),
-            ("x2", (-np.inf, np.inf)),
-            ("x3", (-np.inf, np.inf)),
-            ("x4", (-np.inf, np.inf)),
+            ("x1", (np.float64(-np.inf), np.float64(np.inf))),
+            ("x2", (np.float64(-np.inf), np.float64(np.inf))),
+            ("x3", (np.float64(-np.inf), np.float64(np.inf))),
+            ("x4", (np.float64(-np.inf), np.float64(np.inf))),
         ])
-        self.set_case("healthy")  # Default case
+        self.set_case("healthy")
 
     def set_case(self, case):
         try:
@@ -46,7 +46,6 @@ class ECG_Model(BaseModel):
 
     def _plot_ecg(self, t, ECG, case):
         from src.utils.plotting import plot_ecg_signal
-        print("plot_ecg", t, ECG)
         plot_ecg_signal(t, ECG, title=f"{case.capitalize()} ECG Signal")
 
     def ode(self, t, states, stimuli=None):
@@ -56,7 +55,6 @@ class ECG_Model(BaseModel):
         gamma = self.params["gamma"]
 
         x1, x2, x3, x4 = states
-
         x1_ode = x1 - x2 - (C*x1*x2) - x1*(x2**2)
         x2_ode = H*x1 - 3*x2 + C*x1*x2 + x1*x2**2 + beta*(x4 - x2)
         x3_ode = x3 - x4 - (C*x3*x4) - x3*(x4**2)
@@ -112,12 +110,10 @@ class ECG_Model(BaseModel):
 
         return arr @ self.alpha
 
-    def run(self, t, case=None, solver="Euler", plot=True):
-        if case:
-            self.set_case(case)
-
+    def run(self, t, case="healthy", solver="Euler", plot=True):
+        self.set_case(case)
         y0 = list(self.states.values())
-        out = self.solve(t, solver=solver, verbose=False, y0=y0)
+        out = self.solve(t, solver=solver, verbose=False)
         try:
             X = np.vstack([out[k] for k in ("x1", "x2", "x3", "x4")]).T
         except KeyError as e:
