@@ -1,0 +1,6 @@
+# Python Dependencies
+
+numpy
+matplotlib
+scipy
+jupyter
