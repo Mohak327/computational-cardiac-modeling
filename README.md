@@ -15,15 +15,16 @@ This project implements a computational model for simulating healthy and patholo
    pip install -r requirements.txt
    ```
 
-2. Run the notebooks in the `notebooks/` directory to reproduce results.
+2. Run the notebooks in the `notebooks/` directory to reproduce results in one file or the main.ipynb to use the modular structure.
 
 ## Directory Structure
 
 computational-cardiac-modeling/   
 │
 ├── notebooks/   
-│   └── Project1_Q1_ms7306_ek3529.ipynb  # Main notebook for the project  
-│  
+│   ├── main.ipynb  # One-shot notebook for the project  
+│   ├── standalone_base_model.py                # BaseModel class 
+│
 ├── src/  
 │   ├── models/
 │   │   ├── base_model.py                # BaseModel class  
@@ -53,6 +54,7 @@ computational-cardiac-modeling/
 │   ├── logs/                            # Logs from simulations  
 │   └── README.md                        # Description of the results structure  
 │  
+├── main.ipynb                           # Main file that uses the modular structure
 ├── .gitignore                           # Git ignore file  
 ├── README.md                            # Project overview and instructions  
 ├── requirements.txt                     # Python dependencies  
